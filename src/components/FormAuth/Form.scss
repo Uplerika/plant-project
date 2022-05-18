@@ -1,0 +1,28 @@
+@import '../../scss/variables';
+
+.form__auth {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+
+    .input {
+        padding: 16px;
+        min-width: 20%;
+        outline: none;
+        box-sizing: border-box;
+        height: 40px;
+        cursor: text;
+        color: #333333;
+        border: none;
+        border-radius: 5px;
+        background-color: $background;
+        font-size: 15px;
+        line-height: 24px;
+        //margin-bottom: 20px;
+        &:focus-within {
+            border: 2px solid $main;
+            background: #fff;
+          }
+      }
+}

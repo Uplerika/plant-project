@@ -1,0 +1,111 @@
+@import '../../scss/variables';
+
+@import '../../scss/app.module.scss';
+
+.product-block {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 65px;
+  border-radius: 12px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  height: 350px;
+  transition: box-shadow 0.2s ease-in-out, transform .2s ease-in-out;
+
+  &:hover {
+    box-shadow: 2px 4px 9px rgba(0, 0, 0, 0.05);
+    transform: translateY(-5px);
+  }
+
+  @media (max-width: 1090px) {
+    margin-bottom: 35px;
+  }
+
+  @media (max-width: 768px) {
+    width: 350px;
+    &:not(:last-of-type) {
+      border-bottom: 1px solid #efefef;
+      margin-bottom: 25px;
+      padding-bottom: 45px;
+    }
+  }
+
+  &__image {
+    width: 250px;
+  }
+
+  &__layout {
+    padding: 10px 10px;
+    background: rgba(101, 188, 120, 0.2);
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 27px 27px 12px 12px;
+    display: block;
+    width: 100%;
+    content: "";
+    position: absolute;
+    top: 210px;
+    left: 0;
+  }
+  
+
+  &__title {
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 1%;
+    margin: 0 0 10px 10px;
+    text-align: left;
+  }
+
+  &__selector {
+    display: flex;
+    background-color: #fff;
+    border-radius: 10px;
+    flex-direction: column;
+    padding: 4px;
+
+    ul {
+      display: flex;
+      flex: 1;
+
+      // &:first-of-type {
+      //   margin-bottom: 6px;
+      // }
+
+      li {
+        padding: 5px;
+        flex: 1;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 14px;
+        &.active {
+          box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);
+          border-radius: 5px;
+          cursor: pointer;
+          background: linear-gradient(145deg, #ffffff, #c8e6d5);
+        }
+        &.disabled {
+          opacity: 0.4;
+          pointer-events: none;
+        }
+      }
+    }
+  }
+
+  &__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 15px;
+  }
+
+  &__price {
+    font-weight: bold;
+    font-size: 17px;
+    line-height: 27px;
+    letter-spacing: 0.015em;
+  }
+
+}
