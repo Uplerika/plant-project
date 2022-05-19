@@ -20,7 +20,7 @@ const Form: React.FC<FormProps> = ({ title, handleClickAuth }) => {
 
   const handleSubmitButton = ({ email, pass }) => {
     handleClickAuth(email, pass);
-    console.log(email, pass);
+    //console.log(email, pass);
   };
 
   return (

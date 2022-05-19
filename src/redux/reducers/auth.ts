@@ -4,6 +4,7 @@ const initialState = {
     email: null,
     token: null,
     id: null,
+    user: null
 };
 
 const authReducer = (state = initialState, action) => { 
@@ -13,6 +14,7 @@ const authReducer = (state = initialState, action) => {
                 email: action.payload.email,
                 token: action.payload.token,
                 id: action.payload.id,
+                user: action.payload.id,
             }
         }
         case REMOVE_USER: {
@@ -21,6 +23,7 @@ const authReducer = (state = initialState, action) => {
                 email: null,
                 token: null,
                 id: null,
+                user: null,
             }
         }
     default:

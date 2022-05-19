@@ -9,6 +9,7 @@ import { Routes, Route } from "react-router-dom";
 import NotFoundPage from "./pages/NotFoundPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import Orders from "./pages/Orders";
 
 const App: React.FC<any> = () => {
   return (
@@ -22,6 +23,7 @@ const App: React.FC<any> = () => {
             <Route path="/cart" element={<Cart />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/orders" element={<Orders />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>

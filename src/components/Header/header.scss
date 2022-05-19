@@ -5,7 +5,6 @@
     position: sticky;
     top: 0;
     z-index: 10;
-    //background-color: white;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     background: rgba( 255, 255, 255, 0.7 );
@@ -21,7 +20,16 @@
       }
     }
   
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
+      &__logo {
+        margin-top: 20px;
+        img {
+          max-width: 80px;
+        }
+        h1 {
+          font-size: 18px !important;
+        }
+      }
       &__cart {
         margin: 20px 0;
       }

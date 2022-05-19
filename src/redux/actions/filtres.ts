@@ -9,10 +9,10 @@ export const findPlant = (title:string) => ({
   payload: title,
 });
 
-// export const clearSearch = (payload) => ({
-//   type: CLEAR_SEARCH,
-//   payload,
-// });
+export const clearSearch = (title:string) => ({
+  type: CLEAR_SEARCH,
+  payload: title,
+});
 
 export const setSortBy = ({ type, order }) => ({
     type: SET_SORT_BY,

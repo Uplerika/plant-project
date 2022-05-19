@@ -14,11 +14,12 @@ case FIND_PLANT: {
 		searchValue: action.payload,
 	}
 }
-// case CLEAR_SEARCH: {
-//   return {
-//     searchValue: "",
-//   }
-// }
+case CLEAR_SEARCH: {
+  return {
+    ...state,
+    searchValue: "",
+  }
+}
 case SET_CATEGORY: {
   return {
     ...state,

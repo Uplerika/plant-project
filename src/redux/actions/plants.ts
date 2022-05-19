@@ -25,6 +25,7 @@ export const loadPlants = () => (dispatch) => {
         try {
         const getProducts = async () => {
             const data = await getDocs(q);
+            console.log(q);
             dispatch(loadPlantsSuccess (
               data.docs.map((doc) => ({ ...doc.data(), id: doc.id } as IProduct))
             ));

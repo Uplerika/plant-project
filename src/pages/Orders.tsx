@@ -1,101 +1,38 @@
+import { collection, getDocs } from "firebase/firestore";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import CartItem from "../components/CartItem/CartItem";
-import {
-  clearCart,
-  removeCartItem,
-  plusCartItem,
-  minusCartItem,
-} from "../redux/actions/cart";
+import { IProduct } from "../interfaces/types";
 import { RootState } from "../redux/rootReducer";
-import cartEmptyImg from "../assets/img/Shopping_cart.png";
-import Button from "../components/Button/Button";
-//import useAuth from "../utils/useAuth";
-import { auth, db } from "../utils/firebase";
-import { onAuthStateChanged } from "firebase/auth";
-import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import { db } from "../utils/firebase";
 
-const Cart: React.FC<any> = () => {
-  const dispatch = useDispatch();
-
-  //const shouldRedirect = true;
-  //const { isAuth, email } = useAuth();
-  const navigate = useNavigate();
-  React.useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        //const uid = user.uid;
-        navigate("/cart");
-      } else {
-        navigate("/login");
-      }
-    });
-  }, []);
-
-  const { totalPrice, totalCount, items } = useSelector(
-    (state: RootState) => state.cart
-  );
-  const cart = useSelector((state: RootState) => state.cart);
-
-  const addedPizzas = Object.keys(items).map((key) => {
-    return items[key].items[0];
-  });
-
-  const onClearCart = () => {
-    if (window.confirm("Вы действительно хотите очистить корзину?")) {
-      dispatch(clearCart());
-    }
-  };
-
-  const onRemoveItem = (id) => {
-    dispatch(removeCartItem(id));
-  };
-
-  const onPlusItem = (id) => {
-    dispatch(plusCartItem(id));
-  };
-
-  const onMinusItem = (id) => {
-    dispatch(minusCartItem(id));
-  };
-
-  const [isOrderPlaced, setIsOrderPlaced] = React.useState(false);
+interface OrderProps {
+  items: IProduct[];
+  totalCount: number;
+  totalPrice: number;
+}
+const Orders = () => {
   const user = useSelector((state: RootState) => state.auth.id);
+  const [orders, setOrders] = React.useState([]);
 
-  const onClickOrder = async () => {
-    addDoc(collection(db, user), {
-      items: items,
-      totalPrice: totalPrice,
-      totalCount: totalCount,
-    }).then(() => {
-      console.log("ВАШ ЗАКАЗ", cart);
-      setIsOrderPlaced(true);
-      dispatch(clearCart());
-
-      updateDoc(doc(db, user), {
-        items: [],
-      }).then(() => {
-        console.log("Order updated");
-      });
-    });
-  };
+  React.useEffect(() => {
+    const ord = collection(db, user);
+    try {
+      const getOrders = async () => {
+        const data = await getDocs(ord);
+        console.log(ord);
+        //setOrders(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      };
+      getOrders();
+    } catch (err) {
+      console.log("данные не пришли");
+    }
+  }, []);
 
   return (
     <div className="container container--cart">
-      {isOrderPlaced ? (
-        <div className="cart cart--empty">
-          <h2>
-            Заказ оформлен! <i>✅</i>
-          </h2>
-          <p style={{ marginBottom: "20px" }}>
-            Благодарим за заказ! Ожидаем Вас снова! <i>😍</i>
-          </p>
-          <Link to="/" className="button button--black">
-            <span>Продолжить покупки</span>
-          </Link>
-        </div>
-      ) : totalCount ? (
+      {"" ? (
         <div className="cart">
           <div className="cart__top">
             <h2 className="content__title">
@@ -167,23 +104,18 @@ const Cart: React.FC<any> = () => {
                   strokeLinejoin="round"
                 />
               </svg>
-
-              <span onClick={onClearCart}>Очистить корзину</span>
             </div>
           </div>
           <div className="content__items">
-            {addedPizzas.map((obj) => (
+            {orders.map((obj) => (
               <CartItem
-                key={obj.id}
-                id={obj.id}
-                title={obj.title}
-                size={obj.size}
-                totalPrice={items[obj.id].totalPrice}
-                totalCount={items[obj.id].items.length}
-                imageUrl={obj.imageUrl}
-                onRemove={onRemoveItem}
-                onMinus={onMinusItem}
-                onPlus={onPlusItem}
+                key={obj}
+                id={obj}
+                title={obj}
+                size={obj}
+                //totalPrice={items[obj.id].totalPrice}
+                //totalCount={items[obj.id].items.length}
+                imageUrl={obj}
               />
             ))}
           </div>
@@ -191,11 +123,11 @@ const Cart: React.FC<any> = () => {
             <div className="cart__bottom-details">
               <span>
                 {" "}
-                Всего растений: <b>{totalCount} шт.</b>{" "}
+                Всего растений: <b>{""} шт.</b>{" "}
               </span>
               <span>
                 {" "}
-                Сумма заказа: <b>{totalPrice} ₽</b>{" "}
+                Сумма заказа: <b>{""} ₽</b>{" "}
               </span>
             </div>
             <div className="cart__bottom-buttons">
@@ -217,23 +149,19 @@ const Cart: React.FC<any> = () => {
                 </svg>
                 <span>Вернуться назад</span>
               </Link>
-
-              <Button type="button" onClick={onClickOrder} className="pay-btn">
-                <span>Оплатить сейчас</span>
-              </Button>
             </div>
           </div>
         </div>
       ) : (
         <div className="cart cart--empty">
           <h2>
-            Корзина пустая <i>😕</i>
+            Заказов нет <i>😕</i>
           </h2>
           <p>
             Для того, чтобы заказать в нашем магазине, перейди на главную
             страницу.
           </p>
-          <img src={cartEmptyImg} alt="Empty cart" />
+          {/* <img src={cartEmptyImg} alt="Empty cart" /> */}
           <Link to="/" className="button button--black">
             <span>Вернуться назад</span>
           </Link>
@@ -243,4 +171,4 @@ const Cart: React.FC<any> = () => {
   );
 };
 
-export default Cart;
+export default Orders;

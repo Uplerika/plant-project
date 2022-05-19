@@ -103,12 +103,19 @@ const Header: React.FC<any> = () => {
 
             <ul className="dd-menu">
               {isAuth ? (
-                <li>
-                  <span onClick={handleLoginOut}>
-                    Выйти <br></br>
-                    {email}
-                  </span>
-                </li>
+                <>
+                  <li>
+                    <span onClick={handleLoginOut}>
+                      Выйти <br></br>
+                      {email}
+                    </span>
+                  </li>
+                  <li>
+                    <Link to="/orders">
+                      <span>Мои заказы</span>
+                    </Link>
+                  </li>
+                </>
               ) : (
                 <li>
                   <Link to="/login">
