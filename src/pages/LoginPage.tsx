@@ -6,6 +6,7 @@ const LoginPage = () => {
   return (
     <div className="form">
       <h1>Вход</h1>
+      <p>Необходимо войти в систему для оформления заказа</p>
       <Login />
       <p>
         Нет аккаунта? <Link to="/register">Регистрация</Link>

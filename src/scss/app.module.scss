@@ -437,7 +437,7 @@ footer {
 
   &--empty {
     margin: 0 auto;
-    width: 560px;
+    max-width: 560px;
     text-align: center;
 
     h2 {
@@ -470,6 +470,27 @@ footer {
       margin: 0 auto;
       font-weight: 600;
       font-size: 18px;
+    }
+  }
+  table {
+    width: 100%;
+    margin: 20px 0;
+    border: 15px solid $background;
+    border-top: 5px solid $background;
+    border-collapse: collapse;
+    th {
+      font-weight: bold;
+      padding: 5px;
+      background: $background;
+      border: none;
+      border-bottom: 5px solid $background;
+      text-align: left;
+    }
+    td {
+      padding: 5px;
+      border: none;
+      border-bottom: 5px solid $background;
+      font-size: 15px;
     }
   }
 }

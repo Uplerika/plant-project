@@ -19,7 +19,6 @@ const App: React.FC<any> = () => {
         <main className={styles.content}>
           <Routes>
             <Route path="/" element={<Home />} />
-            {/* <Route path="home" element={<Home />} /> */}
             <Route path="/cart" element={<Cart />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />

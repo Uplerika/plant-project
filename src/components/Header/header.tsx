@@ -11,7 +11,6 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../utils/firebase";
 import useAuth from "../../utils/useAuth";
 import { removeUser } from "../../redux/actions/auth";
-import { clearCart } from "../../redux/actions/cart";
 
 const Header: React.FC<any> = () => {
   const dispatch = useDispatch();
@@ -26,7 +25,6 @@ const Header: React.FC<any> = () => {
   const handleLoginOut = () => {
     signOut(auth)
       .then(() => {
-        //dispatch(clearCart());
         dispatch(removeUser());
         navigate("/");
       })

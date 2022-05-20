@@ -34,16 +34,18 @@ const Home: React.FC<any> = () => {
     (state: RootState) => state.filters
   );
   const [input, setInput] = React.useState("");
-  const [isSearchItems, setisSearchItems] = React.useState("");
+  //const [isSearchItems, setisSearchItems] = React.useState("");
 
   React.useEffect(() => {
     dispatch(loadPlants());
-  }, []);
+  }, [dispatch]);
 
-  const onSelectCategory = React.useCallback((index) => {
-    dispatch(setCategory(index));
-    console.log(index);
-  }, []);
+  const onSelectCategory = React.useCallback(
+    (index) => {
+      dispatch(setCategory(index));
+    },
+    [dispatch]
+  );
 
   const handleAddPlantToCart = (obj) => {
     dispatch(addPlantToCart(obj));
@@ -94,7 +96,7 @@ const Home: React.FC<any> = () => {
           maxWidth: 1200,
           marginLeft: "auto",
           marginRight: "auto",
-          marginTop: 64,
+          marginTop: 15,
         }}
       >
         <Slider>

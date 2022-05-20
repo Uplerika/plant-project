@@ -19,28 +19,27 @@ import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 const Cart: React.FC<any> = () => {
   const dispatch = useDispatch();
 
-  //const shouldRedirect = true;
-  //const { isAuth, email } = useAuth();
   const navigate = useNavigate();
   React.useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        //const uid = user.uid;
         navigate("/cart");
       } else {
         navigate("/login");
       }
     });
-  }, []);
+  }, [navigate]);
 
   const { totalPrice, totalCount, items } = useSelector(
     (state: RootState) => state.cart
   );
   const cart = useSelector((state: RootState) => state.cart);
 
-  const addedPizzas = Object.keys(items).map((key) => {
+  const addedPlants = Object.keys(items).map((key) => {
     return items[key].items[0];
   });
+
+  console.log(addedPlants);
 
   const onClearCart = () => {
     if (window.confirm("Вы действительно хотите очистить корзину?")) {
@@ -68,6 +67,8 @@ const Cart: React.FC<any> = () => {
       items: items,
       totalPrice: totalPrice,
       totalCount: totalCount,
+      status: "Оплачен",
+      time: new Date().toLocaleString(),
     }).then(() => {
       console.log("ВАШ ЗАКАЗ", cart);
       setIsOrderPlaced(true);
@@ -172,7 +173,7 @@ const Cart: React.FC<any> = () => {
             </div>
           </div>
           <div className="content__items">
-            {addedPizzas.map((obj) => (
+            {addedPlants.map((obj) => (
               <CartItem
                 key={obj.id}
                 id={obj.id}
