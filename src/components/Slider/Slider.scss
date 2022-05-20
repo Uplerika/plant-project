@@ -62,6 +62,9 @@
     width: 100%;
     flex-shrink: 0;
     flex-grow: 1;
+    @media (max-width: 768px) {
+        height: 80px;
+      }
 }
 
 .left-arrow, .right-arrow {
