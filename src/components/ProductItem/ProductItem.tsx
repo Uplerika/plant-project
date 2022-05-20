@@ -68,7 +68,7 @@ const ProductItem: React.FC<IProductItem> = ({
           </ul>
         </div>
         <div className="product-block__bottom">
-          <div className="product-block__price">от {price} ₽</div>
+          <div className="product-block__price">{price} ₽</div>
           <Button
             type="button"
             onClick={onAddPlant}
