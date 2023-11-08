@@ -3,50 +3,60 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import OrderItem from "../components/OrderItem/OrderItem";
-import { RootState } from "../redux/rootReducer";
+import { RootState } from "../redux/store";
 import { db } from "../utils/firebase";
 import cartEmptyImg from "../assets/img/Shopping_cart.png";
+import { ICartItem } from "../interfaces/types";
 
-const Orders: React.FC<any> = () => {
-  const user = useSelector((state: RootState) => state.auth.id);
-  const [orders, setOrders] = React.useState([] as any);
+interface OrdersProps {
+  id: string;
+  status: string;
+  totalCount: number;
+  time: string;
+  totalPrice: number;
+  items: ICartItem[];
+}
+
+const Orders: React.FC = () => {
+  const userId = useSelector((state: RootState) => state.auth.id);
+  const [orders, setOrders] = React.useState([] as OrdersProps[]);
   const [isLoading, setisLoading] = React.useState(true);
 
   React.useEffect(() => {
-    const ord = collection(db, user);
-    try {
+    if (userId) {
       const getOrders = async () => {
-        const data = await getDocs(ord);
-        console.log(ord);
-        setisLoading(false);
-        setOrders(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-        setisLoading(false);
+        try {
+          const ord = collection(db, `Buyer_id(${userId})`);
+          const data = await getDocs(ord);
+          setisLoading(false);
+          setOrders(
+            data.docs.map(
+              (doc) => ({ ...doc.data(), id: doc.id } as OrdersProps)
+            )
+          );
+          setisLoading(false);
+        } catch (err) {
+          //console.error("данные не пришли");
+        }
       };
       getOrders();
-    } catch (err) {
-      console.log("данные не пришли");
     }
-  }, [user]);
+  }, [userId]);
 
-  // const addedOrders = Object.keys(orders).map((key) => {
-  //   return orders[key];
-  // });
-  //const obj = orders[0];
-  //console.log(addedOrders);
-  //console.log(orders);
-  //console.log(obj.items);
-  //console.log(orders[0]);
-  //console.log(Object.values(orders));
+  const ordersAll = orders.map((ord: OrdersProps) => ord.items);
+  const orderId = ordersAll.map((ord: ICartItem[]) =>
+    ord.map((el: ICartItem) => el)
+  );
 
   return (
-    <div className="container container--cart">
+    <div className="container container__cart">
       {isLoading ? (
         <div className="cart cart--empty">
           <h2>
             Подождите. <br></br> Идет загрузка Ваших заказов.<i>⏳</i>
           </h2>
         </div>
-      ) : orders.length ? (
+      ) : userId && orders.length ? (
         <div className="cart">
           <div className="cart__top">
             <h2 className="content__title">
@@ -87,24 +97,26 @@ const Orders: React.FC<any> = () => {
               <thead>
                 <tr>
                   <th>№ заказа</th>
+                  <th>Растения</th>
+                  <th>Цена</th>
                   <th>Время заказа</th>
                   <th>Сумма заказа</th>
                   <th>Кол-во товаров</th>
                   <th>Статус заказа</th>
                 </tr>
               </thead>
-              <tbody>
-                {orders.map((obj) => (
-                  <OrderItem
-                    key={obj.id}
-                    id={obj.id}
-                    totalPrice={obj.totalPrice}
-                    totalCount={obj.totalCount}
-                    time={obj.time}
-                    status={obj.status}
-                  />
-                ))}
-              </tbody>
+
+              {orders.map((obj: OrdersProps, i) => (
+                <OrderItem
+                  key={obj.id}
+                  id={obj.id}
+                  totalPrice={obj.totalPrice}
+                  totalCount={obj.totalCount}
+                  time={obj.time}
+                  status={obj.status}
+                  orderId={orderId[i]}
+                />
+              ))}
             </table>
           </div>
         </div>

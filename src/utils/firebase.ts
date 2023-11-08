@@ -24,4 +24,6 @@ export {db}
 
 const auth = getAuth(app);
 
+export const user = auth.currentUser;
+
 export {auth}

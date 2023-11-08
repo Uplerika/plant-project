@@ -1,18 +1,23 @@
 import React from "react";
-import { IProduct } from "../../interfaces/types";
 import Button from "../Button/Button";
 
-export interface IProductItem extends IProduct {
-  IProductItem;
+export interface ICartItem {
+  id: string;
+  title: string;
+  imageUrl: string;
+  price: number;
+  onRemove: (e) => void;
+  onMinus: (e) => void;
+  onPlus: (e) => void;
+  count: number;
 }
 
-const CartItem: React.FC<any> = ({
+const CartItem: React.FC<ICartItem> = ({
   id,
   title,
-  size,
+  count,
+  price,
   imageUrl,
-  totalPrice,
-  totalCount,
   onRemove,
   onMinus,
   onPlus,
@@ -36,10 +41,10 @@ const CartItem: React.FC<any> = ({
       </div>
       <div className="cart__item-info">
         <h3>{title}</h3>
-        <p>размер {size}</p>
       </div>
       <div className="cart__item-count">
-        <div
+        <button
+          disabled={count === 1}
           onClick={handleMinusItem}
           className="button button--outline button--circle cart__item-count-minus"
         >
@@ -59,8 +64,8 @@ const CartItem: React.FC<any> = ({
               fill="#EB5A1E"
             />
           </svg>
-        </div>
-        <b>{totalCount}</b>
+        </button>
+        <b>{count}</b>
         <div
           onClick={handlePlusItem}
           className="button button--outline button--circle cart__item-count-plus"
@@ -84,7 +89,7 @@ const CartItem: React.FC<any> = ({
         </div>
       </div>
       <div className="cart__item-price">
-        <b>{totalPrice} ₽</b>
+        <b>{price * count} ₽</b>
       </div>
       <div className="cart__item-remove">
         <Button

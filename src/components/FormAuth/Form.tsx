@@ -9,9 +9,6 @@ interface FormInputsProps {
   pass: string;
 }
 const Form: React.FC<FormProps> = ({ title, handleClickAuth }) => {
-  //const [email, setEmail] = React.useState("");
-  //const [pass, setPass] = React.useState("");
-
   const {
     register,
     formState: { errors },
@@ -20,7 +17,6 @@ const Form: React.FC<FormProps> = ({ title, handleClickAuth }) => {
 
   const handleSubmitButton = ({ email, pass }) => {
     handleClickAuth(email, pass);
-    //console.log(email, pass);
   };
 
   return (
@@ -28,17 +24,13 @@ const Form: React.FC<FormProps> = ({ title, handleClickAuth }) => {
       <div style={{ marginBottom: "20px" }}>
         <input
           type="email"
-          //value={email}
-          //pattern="^((([0-9A-Za-z]{1}[-0-9A-z\.]{0,30}[0-9A-Za-z]?)|([0-9А-Яа-я]{1}[-0-9А-я\.]{0,30}[0-9А-Яа-я]?))@([-A-Za-z]{1,}\.){1,}[-A-Za-z]{2,})$"
-          //onChange={(e) => setEmail(e.target.value)}
-          //required
           placeholder="email"
           className="input"
           {...register("email", {
             required: "Укажите Ваш email",
             pattern: {
               value:
-                /^((([0-9A-Za-z]{1}[-0-9A-z\.]{0,30}[0-9A-Za-z]?)|([0-9А-Яа-я]{1}[-0-9А-я\.]{0,30}[0-9А-Яа-я]?))@([-A-Za-z]{1,}\.){1,}[-A-Za-z]{2,})$/u,
+                /^((([0-9A-Za-z]{1}[-0-9A-z\.]{0,30}[0-9A-Za-z]?)|([0-9А-Яа-я]{1}[-0-9А-я\.]{0,30}[0-9А-Яа-я]?))@([-A-Za-z]{1,}\.){1,}[-A-Za-z]{2,})$/u, // eslint-disable-line
               message: "Введите верный email",
             },
           })}
@@ -52,8 +44,6 @@ const Form: React.FC<FormProps> = ({ title, handleClickAuth }) => {
       <div style={{ marginBottom: "20px" }}>
         <input
           type="password"
-          //value={pass}
-          //onChange={(e) => setPass(e.target.value)}
           placeholder="Пароль"
           className="input"
           {...register("pass", {
@@ -70,11 +60,7 @@ const Form: React.FC<FormProps> = ({ title, handleClickAuth }) => {
           </div>
         )}
       </div>
-      <Button
-        type="submit"
-        className="button button--black"
-        //onClick={() => handleClickAuth(email, pass)}
-      >
+      <Button type="submit" className="button button--black">
         <span>{title}</span>
       </Button>
     </form>

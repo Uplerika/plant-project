@@ -1,5 +1,5 @@
-@import 'normalize';
-@import 'variables';
+@import './normalize';
+@import './variables';
 
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400&display=swap&subset=cyrillic,cyrillic-ext');
 
@@ -26,6 +26,18 @@ footer {
   min-height: 80vh;
   @media (max-width: 768px) {
     width: calc(100% - 40px);
+  }
+}
+.rnc__base {
+  .rnc__notification-container--top-right {
+    right: 126px !important;
+    .rnc__notification-item {
+      //background-color: $main;
+      border-radius: 12px;
+    }
+    .rnc__notification-message {
+      font-weight: 700;
+    }
   }
 }
 .form {
@@ -74,17 +86,40 @@ footer {
     @media (max-width: 900px) {
       flex-direction: column;
     }
-    .search-block {
-      border: 1px solid #f3f3f3;
-      border-radius: 15px;
-      display: flex;
-      align-items: center;
-      padding: 5px;
-      input {
-        border: none;
+    .search {
+      position: relative;
+      &__input {
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        padding: 12px 20px;
+        padding-left: 40px;
         font-size: 16px;
-        padding: 7px;
-      } 
+        width: 300px;
+        transition: all 0.15s ease-in-out;
+        &:focus {
+          border: 2px solid rgba(0, 0, 0, 0.2);
+          width: 400px;
+        }
+      }
+      &__icon {
+        opacity: 0.5;
+        position: absolute;
+        left: 12px;
+        top: 12px;
+      }
+      &__clear-icon {
+        height: 25px;
+        width: 25px;
+        opacity: 0.3;
+        position: absolute;
+        right: 12px;
+        top: 10px;
+        cursor: pointer;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+
     }
   }
 
@@ -94,7 +129,7 @@ footer {
   width: $container-width;
   margin: 0 auto;
 
-  &--cart {
+  &__cart {
     max-width: 820px;
     margin: 30px auto;
     .content__title {
@@ -108,6 +143,34 @@ footer {
 
     .content__items {
       grid-template-columns: 1fr;
+    }
+  }
+  &__full {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, auto);
+    grid-template-areas: 
+    "A B"
+    "A C"
+    "D D";
+    .img {
+      grid-area: A;
+      width: 400px;
+    }
+    .title {
+      grid-area: B;
+    }
+    .price {
+      grid-area: C;
+      margin: 10px;
+    }
+    .button-back{
+      grid-area: D;
+    }
+    @media (max-width: 850px) {
+      display: flex;
+      flex-direction: column;
+      justify-items: center;
     }
   }
 }
@@ -288,6 +351,26 @@ footer {
         svg {
           path:first-of-type {
             display: none;
+          }
+        }
+        &:disabled {
+          opacity: 0.4;
+          border-color: #787878;
+
+          &:active {
+            transform: none;
+          }
+
+          svg path {
+            fill: #787878;
+          }
+
+          &:hover {
+            background-color: transparent;
+
+            svg path {
+              fill: #787878;
+            }
           }
         }
       }
@@ -486,11 +569,27 @@ footer {
       border-bottom: 5px solid $background;
       text-align: left;
     }
-    td {
-      padding: 5px;
-      border: none;
+    tbody {
       border-bottom: 5px solid $background;
-      font-size: 15px;
     }
+      td {
+        padding: 5px;
+        border: none;
+        font-size: 15px;
+      }
   }
+
 }
+
+.spinner {
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background:conic-gradient(#0000 10%, $main);
+  mask:radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
+  animation:s3 1s infinite linear;
+}
+@keyframes s3 {to{transform: rotate(1turn)}}

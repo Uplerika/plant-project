@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import { RootState } from "../redux/rootReducer"
+import { RootState } from "../redux/store"
 
 
 const useAuth = () => {

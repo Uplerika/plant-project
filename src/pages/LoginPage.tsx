@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Login from "../components/FormAuth/Login";
 
-const LoginPage = () => {
+const LoginPage: React.FC = () => {
   return (
     <div className="form">
       <h1>Вход</h1>

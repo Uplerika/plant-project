@@ -2,21 +2,16 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import CartItem from "../components/CartItem/CartItem";
-import {
-  clearCart,
-  removeCartItem,
-  plusCartItem,
-  minusCartItem,
-} from "../redux/actions/cart";
-import { RootState } from "../redux/rootReducer";
+import { clearCart, removeItem, minusItem, addItem } from "../redux/cartSlice";
+import { RootState } from "../redux/store";
 import cartEmptyImg from "../assets/img/Shopping_cart.png";
 import Button from "../components/Button/Button";
-//import useAuth from "../utils/useAuth";
 import { auth, db } from "../utils/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
+import { ICartItem } from "../interfaces/types";
 
-const Cart: React.FC<any> = () => {
+const Cart: React.FC = () => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -30,16 +25,10 @@ const Cart: React.FC<any> = () => {
     });
   }, [navigate]);
 
-  const { totalPrice, totalCount, items } = useSelector(
+  const { totalPrice, items, totalCount } = useSelector(
     (state: RootState) => state.cart
   );
-  const cart = useSelector((state: RootState) => state.cart);
-
-  const addedPlants = Object.keys(items).map((key) => {
-    return items[key].items[0];
-  });
-
-  console.log(addedPlants);
+  //const cart = useSelector((state: RootState) => state.cart);
 
   const onClearCart = () => {
     if (window.confirm("Вы действительно хотите очистить корзину?")) {
@@ -47,43 +36,59 @@ const Cart: React.FC<any> = () => {
     }
   };
 
-  const onRemoveItem = (id) => {
-    dispatch(removeCartItem(id));
+  const onRemoveItem = (id: string) => {
+    dispatch(removeItem(id));
   };
 
-  const onPlusItem = (id) => {
-    dispatch(plusCartItem(id));
+  const onPlusItem = (id: string) => {
+    dispatch(
+      addItem({
+        id,
+      } as ICartItem)
+    );
   };
 
-  const onMinusItem = (id) => {
-    dispatch(minusCartItem(id));
+  const onMinusItem = (id: string) => {
+    dispatch(minusItem(id));
   };
 
   const [isOrderPlaced, setIsOrderPlaced] = React.useState(false);
   const user = useSelector((state: RootState) => state.auth.id);
 
-  const onClickOrder = async () => {
-    addDoc(collection(db, user), {
+  const onClickOrder = () => {
+    addDoc(collection(db, `Buyer_id(${user})`), {
       items: items,
       totalPrice: totalPrice,
       totalCount: totalCount,
       status: "Оплачен",
       time: new Date().toLocaleString(),
     }).then(() => {
-      console.log("ВАШ ЗАКАЗ", cart);
+      //console.log("ВАШ ЗАКАЗ", cart);
       setIsOrderPlaced(true);
       dispatch(clearCart());
-
-      updateDoc(doc(db, user), {
-        items: [],
-      }).then(() => {
-        console.log("Order updated");
-      });
     });
   };
 
+  if (!totalCount && !isOrderPlaced) {
+    return (
+      <div className="cart cart--empty">
+        <h2>
+          Корзина пустая <i>😕</i>
+        </h2>
+        <p>
+          Для того, чтобы заказать в нашем магазине, перейди на главную
+          страницу.
+        </p>
+        <img src={cartEmptyImg} alt="Empty cart" />
+        <Link to="/" className="button button--black">
+          <span>Вернуться назад</span>
+        </Link>
+      </div>
+    );
+  }
+
   return (
-    <div className="container container--cart">
+    <div className="container container__cart">
       {isOrderPlaced ? (
         <div className="cart cart--empty">
           <h2>
@@ -96,7 +101,7 @@ const Cart: React.FC<any> = () => {
             <span>Продолжить покупки</span>
           </Link>
         </div>
-      ) : totalCount ? (
+      ) : (
         <div className="cart">
           <div className="cart__top">
             <h2 className="content__title">
@@ -173,15 +178,10 @@ const Cart: React.FC<any> = () => {
             </div>
           </div>
           <div className="content__items">
-            {addedPlants.map((obj) => (
+            {items.map((obj: ICartItem) => (
               <CartItem
                 key={obj.id}
-                id={obj.id}
-                title={obj.title}
-                size={obj.size}
-                totalPrice={items[obj.id].totalPrice}
-                totalCount={items[obj.id].items.length}
-                imageUrl={obj.imageUrl}
+                {...obj}
                 onRemove={onRemoveItem}
                 onMinus={onMinusItem}
                 onPlus={onPlusItem}
@@ -224,20 +224,6 @@ const Cart: React.FC<any> = () => {
               </Button>
             </div>
           </div>
-        </div>
-      ) : (
-        <div className="cart cart--empty">
-          <h2>
-            Корзина пустая <i>😕</i>
-          </h2>
-          <p>
-            Для того, чтобы заказать в нашем магазине, перейди на главную
-            страницу.
-          </p>
-          <img src={cartEmptyImg} alt="Empty cart" />
-          <Link to="/" className="button button--black">
-            <span>Вернуться назад</span>
-          </Link>
         </div>
       )}
     </div>

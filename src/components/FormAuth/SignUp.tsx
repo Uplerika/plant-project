@@ -1,11 +1,10 @@
-import React from "react";
 import { useDispatch } from "react-redux";
 import Form from "./Form";
 import { auth } from "../../utils/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { setUser } from "../../redux/actions/auth";
 import { useNavigate } from "react-router-dom";
-import { AppDispatch } from "../../redux/store/store";
+import { AppDispatch } from "../../redux/store";
+import { setUser } from "../../redux/authSlice";
 
 const SignUp = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -15,14 +14,14 @@ const SignUp = () => {
       .then(({ user }) => {
         dispatch(
           setUser({
-            email: user.email,
+            email: user.email as string,
             id: user.uid,
             token: user.refreshToken,
           })
         );
         navigate("/cart");
       })
-      .catch(() => alert("Произошла ошибка! Попробуйте еще раз."));
+      .catch((e) => console.error("Произошла ошибка! Попробуйте еще раз.", e));
   };
   return <Form title="Зарегистрироваться" handleClickAuth={handleRegister} />;
 };

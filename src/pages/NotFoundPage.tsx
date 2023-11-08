@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const NotFoundPage: React.FC<any> = () => {
+const NotFoundPage: React.FC = () => {
   return (
     <div className="notfound">
       <h3>Упс... Похоже вы забрели не туда :)</h3>

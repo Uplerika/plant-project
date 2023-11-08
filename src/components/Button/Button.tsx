@@ -1,8 +1,15 @@
 import classNames from "classnames";
 import React from "react";
-import { ButtonCartProps } from "../../interfaces/types";
 import "./Button.scss";
 
+interface ButtonCartProps {
+  children?: React.ReactNode;
+  onClick?: () => void;
+  onSubmit?: () => void;
+  type: "button" | "submit" | "reset" | undefined;
+  className: string;
+  outline?: boolean;
+}
 const ButtonCart: React.FC<ButtonCartProps> = ({
   children,
   onClick,
