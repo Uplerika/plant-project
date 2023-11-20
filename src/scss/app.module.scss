@@ -30,9 +30,8 @@ footer {
 }
 .rnc__base {
   .rnc__notification-container--top-right {
-    right: 126px !important;
+    //right: 80px !important;
     .rnc__notification-item {
-      //background-color: $main;
       border-radius: 12px;
     }
     .rnc__notification-message {
@@ -155,7 +154,7 @@ footer {
     "D D";
     .img {
       grid-area: A;
-      width: 400px;
+      max-width: 400px;
     }
     .title {
       grid-area: B;

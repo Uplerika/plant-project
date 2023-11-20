@@ -48,7 +48,7 @@ const ProductItem: React.FC<ProductItemsProps> = forwardRef(
         title: title,
         type: type,
         insert: "top",
-        container: "top-right",
+        container: "top-center",
         animationIn: ["animate__animated", "animate__fadeIn"],
         animationOut: ["animate__animated", "animate__fadeOut"],
         dismiss: {

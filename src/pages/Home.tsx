@@ -80,6 +80,7 @@ const Home: React.FC = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          gap: "20px",
         }}
       >
         <h2 className="content__title">Все Растения</h2>
